@@ -30,10 +30,12 @@ namespace WinTail
             Props tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor());
             IActorRef tailCoordinatorActor = MyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
 
-            Props fileValidatorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
+            //Props fileValidatorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));      Replaced with ActorSelection version
+            Props fileValidatorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor));
             IActorRef validationActor = MyActorSystem.ActorOf(fileValidatorProps, "validationActor");
 
-            Props consoleReaderProps = Props.Create(() => new ConsoleReaderActor(validationActor));
+            //Props consoleReaderProps = Props.Create(() => new ConsoleReaderActor(validationActor));   No longer required no we have replaced it with the ActorSelection version
+            Props consoleReaderProps = Props.Create(() => new ConsoleReaderActor());
             IActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReaderProps, "consoleReaderActor");
 
             // tell console reader to begin

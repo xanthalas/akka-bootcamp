@@ -12,12 +12,18 @@ namespace WinTail
         public const string ExitCommand = "exit";
         public const string StartCommand = "start";
 
+        /* This version of the ConsoleReaderActor took a FileValidatorActor as a parameter
+         * and used it. At the start of Unit 1 lesson 5 this is changed to use an ActorSelection
+         * so this version is commented out here
+         
         private IActorRef _validationActor;
 
         public ConsoleReaderActor(IActorRef validationActor)
         {
             _validationActor = validationActor;
         }
+
+        */
 
         protected override void OnReceive(object message)
         {
@@ -51,7 +57,10 @@ namespace WinTail
 
             // otherwise, just hand message off to validation actor
             // (by telling its actor ref)
-            _validationActor.Tell(message);
+            //_validationActor.Tell(message);       This version is replaced by ActorSelection
+
+            //Here we use ActorSelection to get the address of the validation actor to use
+            Context.ActorSelection("akka://MyActorSystem/user/validationActor").Tell(message);
         }
         #endregion
     }
